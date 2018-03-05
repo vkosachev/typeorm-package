@@ -51,9 +51,9 @@ var MigrationExecutor = /** @class */ (function () {
     function MigrationExecutor(connection, queryRunner) {
         this.connection = connection;
         this.queryRunner = queryRunner;
-        this.migrationTable = "migrations";
-        if (connection.options.migrationTable) {
-            this.migrationTable = connection.options.migrationTable;
+        this.migrationsTableName = "migrations";
+        if (connection.options.migrationsTableName) {
+            this.migrationsTableName = connection.options.migrationsTableName;
         }
     }
     // -------------------------------------------------------------------------
@@ -247,11 +247,11 @@ var MigrationExecutor = /** @class */ (function () {
             var tableExist;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, queryRunner.hasTable(this.migrationTable)];
+                    case 0: return [4 /*yield*/, queryRunner.hasTable(this.migrationsTableName)];
                     case 1:
                         tableExist = _a.sent();
                         if (!!tableExist) return [3 /*break*/, 3];
-                        return [4 /*yield*/, queryRunner.createTable(new Table_1.Table(this.migrationTable, [
+                        return [4 /*yield*/, queryRunner.createTable(new Table_1.Table(this.migrationsTableName, [
                                 new TableColumn_1.TableColumn({
                                     name: "timestamp",
                                     type: this.connection.driver.normalizeType({ type: this.connection.driver.mappedDataTypes.migrationTimestamp }),
@@ -283,7 +283,7 @@ var MigrationExecutor = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.connection.manager
                             .createQueryBuilder(queryRunner)
                             .select()
-                            .from(this.migrationTable, "migrations")
+                            .from(this.migrationsTableName, "migrations")
                             .getRawMany()];
                     case 1:
                         migrationsRaw = _a.sent();
@@ -324,14 +324,14 @@ var MigrationExecutor = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!(this.connection.driver instanceof SqlServerDriver_1.SqlServerDriver)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, queryRunner.insert(this.migrationTable, {
+                        return [4 /*yield*/, queryRunner.insert(this.migrationsTableName, {
                                 timestamp: new MssqlParameter_1.MssqlParameter(migration.timestamp, this.connection.driver.normalizeType({ type: this.connection.driver.mappedDataTypes.migrationTimestamp })),
                                 name: new MssqlParameter_1.MssqlParameter(migration.name, this.connection.driver.normalizeType({ type: this.connection.driver.mappedDataTypes.migrationName })),
                             })];
                     case 1:
                         _a.sent();
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, queryRunner.insert(this.migrationTable, {
+                    case 2: return [4 /*yield*/, queryRunner.insert(this.migrationsTableName, {
                             timestamp: migration.timestamp,
                             name: migration.name,
                         })];
@@ -352,14 +352,14 @@ var MigrationExecutor = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!(this.connection.driver instanceof SqlServerDriver_1.SqlServerDriver)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, queryRunner.delete(this.migrationTable, {
+                        return [4 /*yield*/, queryRunner.delete(this.migrationsTableName, {
                                 timestamp: new MssqlParameter_1.MssqlParameter(migration.timestamp, this.connection.driver.normalizeType({ type: this.connection.driver.mappedDataTypes.migrationTimestamp })),
                                 name: new MssqlParameter_1.MssqlParameter(migration.name, this.connection.driver.normalizeType({ type: this.connection.driver.mappedDataTypes.migrationName })),
                             })];
                     case 1:
                         _a.sent();
                         return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, queryRunner.delete(this.migrationTable, {
+                    case 2: return [4 /*yield*/, queryRunner.delete(this.migrationsTableName, {
                             timestamp: migration.timestamp,
                             name: migration.name,
                         })];
